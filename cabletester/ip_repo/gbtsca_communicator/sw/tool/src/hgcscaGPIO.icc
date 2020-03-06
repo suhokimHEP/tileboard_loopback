@@ -1,0 +1,41 @@
+/* -*- C++ -*- */
+
+
+static void gpio_render(SCA* target) {
+  uint32_t directions=target->gpio_get_direction_all();
+  uint32_t values=target->gpio_read_all();
+  uint32_t outval=target->gpio_read_write();
+
+  uint32_t effvalues=(outval&directions) | (values & (directions ^ 0xFFFFFFFFu));
+  
+  printf("\n  GPIO Direction : "); printbits(directions);
+  printf("\n  GPIO Values    : "); printbits(effvalues);
+  printf("\n\n");
+}
+
+
+static void gpio_action(const std::string& cmd, SCA* sca) {
+  if (cmd=="SET") {
+    int ibit=BaseMenu::readline_int("Which bit?",-1);
+    if (ibit>=0 && ibit<=31) {
+      sca->gpio_set(ibit);
+    }
+  } else if (cmd=="CLEAR") {
+    int ibit=BaseMenu::readline_int("Which bit?",-1);
+    if (ibit>=0 && ibit<=31) {
+      sca->gpio_clear(ibit);
+    }
+  } else if (cmd=="WRITE") {
+  } else if (cmd=="OUTPUT") {
+    int ibit=BaseMenu::readline_int("Which bit?",-1);
+    if (ibit>=0 && ibit<=31) {
+      sca->gpio_setwrite(ibit);
+    }
+  } else if (cmd=="INPUT") {
+    int ibit=BaseMenu::readline_int("Which bit?",-1);
+    if (ibit>=0 && ibit<=31) {
+      sca->gpio_setread(ibit);
+    }
+  }
+  
+}

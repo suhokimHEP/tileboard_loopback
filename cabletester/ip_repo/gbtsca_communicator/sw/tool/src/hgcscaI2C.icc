@@ -1,0 +1,62 @@
+/* -*- C++ -*- */
+
+static int i2c_bus = -1;
+
+static void i2c_render(SCA* target) {
+  if (i2c_bus<0) {
+    printf("No I2C bus selected\n\n");
+  } else {
+    bool success, lvlerr, invalid, noack;
+    printf(" BUS %d: ",i2c_bus);
+    target->i2c_status(i2c_bus,success,lvlerr,invalid,noack);
+    if (success) printf(" SUCCESS ");
+    if (lvlerr) printf(" I2C-BUS-BLOCKED ");
+    if (invalid) printf(" INVALID ");
+    if (noack) printf(" NOACK ");
+    printf("\n\n");
+  }
+}
+
+static void i2c_action(const std::string& cmd, SCA* sca) {
+  if (cmd=="PICK") {
+    int ibus=BaseMenu::readline_int("Which bus?",i2c_bus);
+    if (ibus>=0 && ibus<=12) {
+      i2c_bus=ibus;
+      sca->i2c_configure(i2c_bus,0,false,false); // hard-coded defaults here!
+    }
+  } else if (cmd=="WRITE") {
+    if (i2c_bus<0) return;
+    static uint32_t addr=0;
+    addr=BaseMenu::readline_uint("Address?",addr);
+    std::string data=BaseMenu::readline_nosplit("Data to send?"," ");
+    std::vector<unsigned int> uints=BaseMenu::split_uint(data);
+    std::vector<uint8_t> bytes;
+    for (size_t i=0; i<uints.size(); i++) bytes.push_back(uint8_t(uints[i]));
+    sca->i2c_write(i2c_bus, addr, bytes);
+    
+  } else if (cmd=="READ") {
+    if (i2c_bus<0) return;
+    static uint32_t addr=0;
+    addr=BaseMenu::readline_uint("Address?",addr);
+    int len=BaseMenu::readline_int("Length?",1);
+    printf("Starting read...\n");
+    sca->i2c_read_initiate(i2c_bus,addr,len);
+    bool success, lvlerr, invalid, noack;
+    do {
+      sca->i2c_status(i2c_bus,success,lvlerr,invalid,noack);
+      if (noack) {
+	printf("  Read failed: NOACK\n");
+	break;
+      }
+      if (success) {
+	printf("  Success: ");
+	std::vector<uint8_t> res=sca->i2c_read(i2c_bus);
+	for (std::vector<uint8_t>::const_iterator j=res.begin(); j!=res.end(); j++)
+	  printf("0x%02x ",*j);
+	printf("\n");
+	break;
+      }
+    } while (1);
+  }
+  
+}

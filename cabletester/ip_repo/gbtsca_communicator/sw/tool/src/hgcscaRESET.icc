@@ -1,0 +1,18 @@
+/* -*- C++ -*- */
+
+static void reset_action(const std::string& cmd, SCA* sca) {
+  if (cmd=="HDLC") {
+    sca->resetHDLC();
+    printf("\n  Reseting HDLC  ");
+    printf("\n");
+  } else if (cmd=="CHIP"){
+    sca->resetChip();
+    printf("\n  Reseting Chip  ");
+    printf("\n");
+  } else if (cmd=="BOTH"){
+    sca->resetHDLC();
+    sca->resetChip();
+    printf("\n  Reseting HDLC and Chip  ");
+    printf("\n");
+  }
+}

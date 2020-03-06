@@ -1,0 +1,17 @@
+/* -*- C++ -*- */
+
+static void orbitsync_action(const std::string& cmd, FastControl* fc) {
+  bool enabled, idle_force, orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[2];
+  uint32_t orbitsync_bx;
+  
+  fc->getControlStatus(enabled,idle_force,orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[0], l1agen_enabled[1]);
+  orbitsync_bx=fc->getOrbitsyncBX();
+
+  orbitsync_enabled=BaseMenu::readline_bool("OrbitSync enable? ",orbitsync_enabled);
+  if (orbitsync_enabled)
+    orbitsync_bx=BaseMenu::readline_int("OrbitSync BX? ",orbitsync_bx);
+
+  fc->enableOrbitsync(orbitsync_enabled);
+  fc->setOrbitsyncBX(orbitsync_bx);
+}
+

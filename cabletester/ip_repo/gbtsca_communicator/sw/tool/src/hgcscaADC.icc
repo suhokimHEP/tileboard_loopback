@@ -1,0 +1,75 @@
+/* -*- C++ -*- */
+
+
+static void adc_action(const std::string& cmd, SCA* sca) {
+  if (cmd=="ONCE") {
+    static int ichan=-1;
+    ichan=BaseMenu::readline_int("Which channel?",ichan);
+    if (ichan>=0) {
+      uint16_t val=sca->adc_read(ichan);
+      printf(" ADC(%d) = %.3fV (0x%03x)\n",ichan,val*1.0f/0x1000,val);
+    }
+  } else if (cmd=="CSV") {
+    std::string fname=BaseMenu::readline("Output filename: ");
+    std::string chans_str=BaseMenu::readline_nosplit("Which channels?"," ");
+    std::vector<int> chans=BaseMenu::split_int(chans_str);
+    int ireads=BaseMenu::readline_int("How many reads?",100);
+    FILE* f=fopen(fname.c_str(),"w");
+    fprintf(f,"%23s","Time");
+    for (std::vector<int>::size_type j=0; j<chans.size(); j++) {
+      fprintf(f,", %5d",chans[j]);
+    }
+    fprintf(f,"\n");
+    for (int i=0; i<ireads; i++) {
+      printtime(3,f);
+      for (std::vector<int>::size_type j=0; j<chans.size(); j++) {
+	uint16_t val=sca->adc_read(chans[j]);
+	fprintf(f,", %5d",val);
+      }
+      fprintf(f,"\n");
+    }
+    fclose(f);
+  } else if (cmd=="CUREN") {
+    uint32_t ennow=sca->adc_current_source_enable_read();
+    printf(" Current enable: "); printbits(ennow); printf("\n\n");
+    int ichan=BaseMenu::readline_int("Enable which channel?",-1);
+    if (ichan>=0 && ichan<31) {
+      ennow=ennow|(1<<ichan);
+    }
+    sca->adc_current_source_enable_write(ennow);
+  } else if (cmd=="CURDIS") {
+    uint32_t ennow=sca->adc_current_source_enable_read();
+    printf(" Current enable: "); printbits(ennow); printf("\n\n");
+    int ichan=BaseMenu::readline_int("Disable which channel?",-1);
+    if (ichan>=0 && ichan<31) {
+      ennow=ennow&((0x7FFFFFFF)^(1<<ichan));
+    }
+    sca->adc_current_source_enable_write(ennow);
+  } else if (cmd=="HISTO") {
+    std::string chans_str=BaseMenu::readline_nosplit("Which channels?"," ");
+    std::vector<int> chans=BaseMenu::split_int(chans_str);
+    int ireads=BaseMenu::readline_int("How many reads?",100);
+    /*
+    std::string rfile=
+
+    for (in
+    
+    if (ichan>=0) {
+      uint16_t val=sca->adc_read(ichan);
+      printf(" ADC(%d) = %.3fV (0x%03x)\n",ichan,val*1.0f/0x1000,val);
+    }
+    */
+  } else if (cmd=="DAC") {
+    uint8_t vals[4];
+    for (int i=0; i<4; i++) {
+      vals[i]=sca->dac_read(i);
+      printf(" %d: 0x%02x ",i,vals[i]);
+    }
+    printf("\n");
+    int ichan=BaseMenu::readline_int("Change which channel?",-1);
+    if (ichan>=0 && ichan<4) {
+      int val=BaseMenu::readline_uint("New value: ",vals[ichan]);
+      sca->dac_write(ichan,val);
+    }
+  }
+}

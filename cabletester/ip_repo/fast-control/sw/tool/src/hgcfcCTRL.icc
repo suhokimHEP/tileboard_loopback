@@ -1,0 +1,26 @@
+/* -*- C++ -*- */
+
+static void ctrl_action(const std::string& cmd, FastControl* fc) {
+  if (cmd=="DISABLE") {
+    bool enabled, idle_force, orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[2];
+    fc->getControlStatus(enabled,idle_force,orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[0], l1agen_enabled[1]);
+    fc->enableFCstream(!enabled);
+  } else if(cmd=="IDLE"){
+    bool enabled, idle_force, orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[2];
+    fc->getControlStatus(enabled,idle_force,orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[0], l1agen_enabled[1]);
+    fc->forceIdle(!idle_force);
+  } else if(cmd=="OCR"){
+    fc->OrbitCountReset();
+  } else if(cmd=="LINKRESET"){
+    fc->LinkReset();
+  } else if(cmd=="CALIBREQ"){
+    fc->generateOneCalibCycle();
+  } else if(cmd=="RESYNC"){
+    fc->DAQresync();
+  } else if(cmd=="INTERNALTEST"){
+    fc->internalTestReq();
+  } else if(cmd=="COUNTERSRESET"){
+    fc->resetCounters();
+  }
+}
+

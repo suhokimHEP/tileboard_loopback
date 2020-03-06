@@ -1,0 +1,27 @@
+/* -*- C++ -*- */
+
+static void l1a_action(const std::string& cmd, FastControl* fc) {
+  static char which='A';
+  std::string tool=BaseMenu::readline("Which L1A generator? ",std::string(1,which));
+  if (tool.size()>0) which=tool[0];
+
+  if (cmd=="ENABLE") {
+    bool enabled, idle_force, orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[2];
+    fc->getControlStatus(enabled,idle_force,orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[0], l1agen_enabled[1]);
+
+    if (which=='a' || which=='A') fc->enablePeriodicl1aGenA(!l1agen_enabled[0]);
+    if (which=='b' || which=='B') fc->enablePeriodicl1aGenB(!l1agen_enabled[1]);
+  } else if (cmd=="SINGLE"){
+    if (which=='a' || which=='A') fc->L1AgenA();
+    if (which=='b' || which=='B') fc->L1AgenB();
+  } else if (cmd=="SETUP"){
+    uint16_t bx;
+    uint32_t prescale;
+    fc->getL1AGenSetup(which,bx,prescale);
+    bx=BaseMenu::readline_uint("BX?",bx);
+    prescale=BaseMenu::readline_uint("Prescale?",prescale);
+    fc->setupL1AGen(which,bx,prescale);
+  }
+
+}
+

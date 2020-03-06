@@ -1,0 +1,18 @@
+
+
+set_property ASYNC_REG true [get_cells tester_i/fastcontrol_axi_v1_0_0/inst/fastcontrol_axi_v1_0_S00_AXI_inst/FastControl/orbit_ctl/timer_ocr/pending_reg]
+set_property ASYNC_REG true [get_cells tester_i/fastcontrol_axi_v1_0_0/inst/fastcontrol_axi_v1_0_S00_AXI_inst/FastControl/orbit_ctl/timer_ocr/fire_reg]
+set_property ASYNC_REG true [get_cells tester_i/hdlc_blocks_3rd_v1_0_0/inst/HDLCoutput/FDPE_re]
+set_property ASYNC_REG true [get_cells {tester_i/hdlc_blocks_3rd_v1_0_0/inst/HDLCoutput/pulseFifo_reg[0]}]
+set_property ASYNC_REG true [get_cells {tester_i/hdlc_blocks_3rd_v1_0_0/inst/rwptr_Hold_reg[0]}]
+set_property ASYNC_REG true [get_cells {tester_i/hdlc_blocks_3rd_v1_0_0/inst/GBTSCAoutputTest_rwptr_reg[0]}]
+set_property ASYNC_REG true [get_cells {tester_i/hdlc_blocks_3rd_v1_0_0/inst/rwptr_Hold_reg[1]}]
+set_property ASYNC_REG true [get_cells {tester_i/hdlc_blocks_3rd_v1_0_0/inst/GBTSCAoutputTest_rwptr_reg[1]}]
+set_property ASYNC_REG true [get_cells {tester_i/hdlc_blocks_3rd_v1_0_0/inst/rwptr_Hold_reg[2]}]
+set_property ASYNC_REG true [get_cells {tester_i/hdlc_blocks_3rd_v1_0_0/inst/GBTSCAoutputTest_rwptr_reg[2]}]
+set_false_path -from [get_clocks clk_320_tester_clk_wiz_0_0] -to [get_clocks clk_pl_0]
+set_clock_groups -asynchronous -group [get_clocks clk_pl_0] -group [get_clocks clk_320_tester_clk_wiz_0_0]
+set_clock_groups -asynchronous -group [get_clocks clk_pl_0] -group [get_clocks clk_40_tester_clk_wiz_0_0]
+set_clock_groups -asynchronous -group [get_clocks clk_pl_0] -group [get_clocks clk_80_tester_clk_wiz_0_0]
+set_clock_groups -asynchronous -group [get_clocks clk_40_tester_clk_wiz_0_0] -group [get_clocks clk_pl_0]
+set_clock_groups -asynchronous -group [get_clocks clk_80_tester_clk_wiz_0_0] -group [get_clocks clk_pl_0]

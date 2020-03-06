@@ -1,0 +1,73 @@
+/* -*- C++ -*- */
+
+static void ctrl_action(const std::string& cmd, SCA* sca) {
+  if (cmd=="LIST") {
+    printf(" Currently enabled: ");
+    std::vector<SCA::SCABlock> en=sca->ctl_getenables();
+    int j=0;
+    for (std::vector<SCA::SCABlock>::const_iterator i=en.begin(); i!=en.end(); i++) {
+      printf(" %s ",sca->ctl_enableName(*i));
+      j++;
+      if (!(j%5)) printf("\n                    ");
+    }
+    printf("\n");
+  } else if (cmd=="ENABLE") {
+    std::vector<SCA::SCABlock> en=sca->ctl_getenables();
+    int j=0;
+    for (int i=1; i<=25; i++) {
+      std::vector<SCA::SCABlock>::const_iterator q=std::find(en.begin(),en.end(),SCA::SCABlock(i));
+      if (q!=en.end() || sca->ctl_enableName(SCA::SCABlock(i))==0) continue;
+      printf(" %3d: %15s     ",i,sca->ctl_enableName(SCA::SCABlock(i)));
+      j++;
+      if (!(j%2)) printf("\n");      
+    }
+    if ((j%2)) printf("\n");
+    int enablewhich=BaseMenu::readline_int("Enable which? (-1 to skip)",-1);
+    printf("enablewhich: %i",enablewhich);
+    if (enablewhich>0 && sca->ctl_enableName(SCA::SCABlock(enablewhich))!=0) {
+      sca->ctl_enable(SCA::SCABlock(enablewhich));
+    }
+  } else if (cmd=="DISABLE") {
+    std::vector<SCA::SCABlock> en=sca->ctl_getenables();
+    int j=0;
+    for (int i=1; i<=25; i++) {
+      std::vector<SCA::SCABlock>::const_iterator q=std::find(en.begin(),en.end(),SCA::SCABlock(i));
+      if (q==en.end() || sca->ctl_enableName(SCA::SCABlock(i))==0) continue;
+      printf(" %3d: %15s     ",i,sca->ctl_enableName(SCA::SCABlock(i)));
+      j++;
+      if (!(j%2)) printf("\n");      
+    }
+    if ((j%2)) printf("\n");
+    int disablewhich=BaseMenu::readline_int("Disable which? (-1 to skip)",-1);
+    if (disablewhich>0 && sca->ctl_enableName(SCA::SCABlock(disablewhich))!=0) {
+      sca->ctl_disable(SCA::SCABlock(disablewhich));
+    }
+  } else if (cmd=="CHIPID") {
+    std::vector<SCA::SCABlock> enables=sca->ctl_getenables();
+
+    // have to enable this block for some reason...
+    if (std::find(enables.begin(), enables.end(), SCA::sca_adc)==enables.end()) {
+      sca->ctl_enable(SCA::sca_adc);
+    }
+    uint32_t id=sca->ctl_chipid();
+    printf(" CHIPID: %10d (0x%06x)\n",id,id);
+    } else if (cmd=="SEUREAD") {
+    std::vector<SCA::SCABlock> enables=sca->ctl_getenables();
+
+    // have to enable this block for some reason...
+    if (std::find(enables.begin(), enables.end(), SCA::sca_dac)==enables.end()) {
+      sca->ctl_enable(SCA::sca_dac);
+    }
+    uint32_t n=sca->ctl_seucount();
+    printf(" SEUs: %10d (0x%06x)\n",n,n);
+    } else if (cmd=="SEURESET") {
+    std::vector<SCA::SCABlock> enables=sca->ctl_getenables();
+
+    // have to enable this block for some reason...
+    if (std::find(enables.begin(), enables.end(), SCA::sca_dac)==enables.end()) {
+      sca->ctl_enable(SCA::sca_dac);
+    }
+    sca->ctl_seucountreset();
+    printf("SEU count reset\n\n");
+  }
+}

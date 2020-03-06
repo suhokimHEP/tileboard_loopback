@@ -1,0 +1,83 @@
+#set_property PACKAGE_PIN D7 [get_ports fc_clk_o_p]
+set_property PACKAGE_PIN D7 [get_ports fc_clk_in_p]
+set_property PACKAGE_PIN D6 [get_ports fc_clk_in_n]
+set_property IOSTANDARD DIFF_SSTL12 [get_ports fc_clk_*]
+set_property ODT RTT_48 [get_ports {fc_clk_*}]
+
+set_property PACKAGE_PIN C9 [get_ports fc_sig_in_p]
+set_property PACKAGE_PIN B9 [get_ports fc_sig_in_n]
+set_property IOSTANDARD DIFF_SSTL12 [get_ports fc_sig_*]
+set_property ODT RTT_48 [get_ports {fc_sig*}]
+set_property PACKAGE_PIN AE9 [get_ports SCA_MISO_P]
+set_property PACKAGE_PIN AE8 [get_ports SCA_MISO_N]
+set_property ODT RTT_48 [get_ports {SCA_*}]
+set_property PACKAGE_PIN AF7 [get_ports SCA_CLK_P]
+set_property PACKAGE_PIN AF6 [get_ports SCA_CLK_N]
+set_property PACKAGE_PIN AC9 [get_ports SCA_MOSI_P]
+set_property PACKAGE_PIN AD9 [get_ports SCA_MOSI_N]
+
+set_property IOSTANDARD DIFF_SSTL12 [get_ports SCA_*]
+
+#set_property PACKAGE_PIN [get_ports { tileboard_power_enable }]
+#set_property IOSTANDARD LVCMOS12 [get_ports { tileboard_power_enable }]
+
+#direct i2c to "emulator" FPGA
+#AH1 : HGCROC_SCL
+#AH2 : HGCROC_SDA
+#AB3 : HGCROC_RSTB
+#AH7 : HGCROC_I2C_RSTB
+
+set_property IOSTANDARD LVCMOS12 [get_ports {HGCROC_SCL}]
+set_property DRIVE 8 [get_ports {HGCROC_SCL}]
+set_property PACKAGE_PIN AG1 [get_ports {HGCROC_SCL}]
+set_property IOSTANDARD LVCMOS12 [get_ports {HGCROC_SDA}]
+set_property DRIVE 8 [get_ports {HGCROC_SDA}]
+set_property PACKAGE_PIN AF1 [get_ports {HGCROC_SDA}]
+
+set_property IOSTANDARD LVCMOS12 [get_ports {gpo[0]}]
+set_property DRIVE 8 [get_ports {gpo[0]}]
+set_property PACKAGE_PIN AB3 [get_ports {gpo[0]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {gpo[1]}]
+set_property DRIVE 8 [get_ports {gpo[1]}]
+set_property PACKAGE_PIN AH7 [get_ports {gpo[1]}]
+
+#fast links trigger/DAQ
+set_property IOSTANDARD DIFF_SSTL12_DCI [get_ports {HGCROC1_DAQ_IN_*}]
+set_property IOSTANDARD DIFF_SSTL12_DCI [get_ports {HGCROC1_DAQ_OUT_*}]
+set_property ODT RTT_48 [get_ports {HGCROC1_DAQ_IN_*}]
+set_property IOSTANDARD DIFF_SSTL12_DCI [get_ports {HGCROC1_TRIG_IN_*}]
+set_property ODT RTT_48 [get_ports {HGCROC1_TRIG_IN_*}]
+set_property PACKAGE_PIN E9 [get_ports {HGCROC1_DAQ_IN_P0}]
+set_property PACKAGE_PIN D9 [get_ports {HGCROC1_DAQ_IN_N0}]
+set_property PACKAGE_PIN G8 [get_ports {HGCROC1_DAQ_OUT_P1}]
+set_property PACKAGE_PIN F7 [get_ports {HGCROC1_DAQ_OUT_N1}]
+set_property PACKAGE_PIN F8 [get_ports {HGCROC1_TRIG_IN_P0}]
+set_property PACKAGE_PIN E8 [get_ports {HGCROC1_TRIG_IN_N0}]
+set_property PACKAGE_PIN G6 [get_ports {HGCROC1_TRIG_IN_P1}]
+set_property PACKAGE_PIN F6 [get_ports {HGCROC1_TRIG_IN_N1}]
+set_property PACKAGE_PIN F2 [get_ports {HGCROC1_TRIG_IN_P2}]
+set_property PACKAGE_PIN E2 [get_ports {HGCROC1_TRIG_IN_N2}]
+#set_property PACKAGE_PIN A9 [get_ports {HGCROC1_TRIG_IN_P[3]}]
+#set_property PACKAGE_PIN A8 [get_ports {HGCROC1_TRIG_IN_N[3]}]
+set_property IOSTANDARD DIFF_SSTL12_DCI [get_ports {HGCROC1_TRIG_OUT_*}]
+set_property PACKAGE_PIN A9 [get_ports {HGCROC1_TRIG_OUT_P3}]
+set_property PACKAGE_PIN A8 [get_ports {HGCROC1_TRIG_OUT_N3}]
+
+set_property IOSTANDARD DIFF_SSTL12_DCI [get_ports {HGCROC2_DAQ_OUT_*}]
+set_property IOSTANDARD DIFF_SSTL12_DCI [get_ports {HGCROC2_TRIG_OUT_*}]
+set_property PACKAGE_PIN E4 [get_ports {HGCROC2_DAQ_OUT_P0}]
+set_property PACKAGE_PIN E3 [get_ports {HGCROC2_DAQ_OUT_N0}]
+set_property PACKAGE_PIN C1 [get_ports {HGCROC2_DAQ_OUT_P1}]
+set_property PACKAGE_PIN B1 [get_ports {HGCROC2_DAQ_OUT_N1}]
+set_property PACKAGE_PIN A7 [get_ports {HGCROC2_TRIG_OUT_P0}]
+set_property PACKAGE_PIN A6 [get_ports {HGCROC2_TRIG_OUT_N0}]
+set_property PACKAGE_PIN B4 [get_ports {HGCROC2_TRIG_OUT_P1}]
+set_property PACKAGE_PIN A4 [get_ports {HGCROC2_TRIG_OUT_N1}]
+set_property PACKAGE_PIN E1 [get_ports {HGCROC2_TRIG_OUT_P2}]
+set_property PACKAGE_PIN D1 [get_ports {HGCROC2_TRIG_OUT_N2}]
+set_property PACKAGE_PIN E5 [get_ports {HGCROC2_TRIG_OUT_P3}]
+set_property PACKAGE_PIN D5 [get_ports {HGCROC2_TRIG_OUT_N3}]
+
+set_property IOSTANDARD DIFF_SSTL12_DCI [get_ports {CK_40M_*}]
+set_property PACKAGE_PIN C4 [get_ports {CK_40M_N}]
+set_property PACKAGE_PIN D4 [get_ports {CK_40M_P}]

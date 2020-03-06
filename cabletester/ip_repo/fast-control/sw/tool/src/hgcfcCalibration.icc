@@ -1,0 +1,28 @@
+/* -*- C++ -*- */
+
+static void calib_action(const std::string& cmd, FastControl* fc) {
+  bool enabled, idle_force, orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[2];
+  uint16_t calib_req_bx, calib_l1a_bx;
+  bool calib_req_regular_l1a;
+  uint32_t calib_req_orbit_prescale;
+  
+  
+  fc->getControlStatus(enabled,idle_force,orbitsync_enabled, calibreq_enabled, calibl1a, l1agen_enabled[0], l1agen_enabled[1]);
+  fc->getCalibReqSetup(calib_req_bx, calib_l1a_bx, calib_req_orbit_prescale, calib_req_regular_l1a);
+
+  calibreq_enabled=BaseMenu::readline_bool("Calibration request enable? ",calibreq_enabled);
+  if (calibreq_enabled) {
+    calib_req_orbit_prescale=BaseMenu::readline_int("Calibration Request Orbit Prescale: ", calib_req_orbit_prescale);
+    calib_req_bx=BaseMenu::readline_int("Calibration request BX: ",calib_req_bx);
+    calibl1a=BaseMenu::readline_bool("Calibration L1A enable? ",calibl1a);
+    if (calibl1a) {
+      calib_l1a_bx=BaseMenu::readline_int("Calibration L1A BX: ",calib_l1a_bx);
+      calib_req_regular_l1a=BaseMenu::readline_bool("Use regular L1A instead of calibration L1A? ",calib_req_regular_l1a);
+    }
+  }
+
+  fc->enableCalibReq(calibreq_enabled);
+  fc->enableCalibl1a(calibl1a);
+  fc->setupCalibReq(calib_req_bx, calib_l1a_bx, calib_req_orbit_prescale, calib_req_regular_l1a);
+}
+
