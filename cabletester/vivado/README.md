@@ -1,0 +1,1 @@
+This folder is a placeholder where the regenerated vivado project will be put. Do not edit anything in this folder manually. If the vivado project needs to be regenerated, you must delete everything in this folder first (except this readme).
