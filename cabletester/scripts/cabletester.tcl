@@ -155,7 +155,7 @@ add_files -norecurse -fileset $obj $files
 
 # Add local files from the original project (-no_copy_sources specified)
 set files [list \
- [file normalize "${origin_dir}/../vivado/cabletester.srcs/sources_1/bd/cabletester/cabletester.bd" ]\
+ [file normalize "${origin_dir}/../src/bd/cabletester.bd" ]\
 ]
 set added_files [add_files -fileset sources_1 $files]
 
