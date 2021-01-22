@@ -32,7 +32,7 @@ source scripts/create_project.tcl
 
 ```
 ## XCD Constraint file
-
+```
  # For UMinn TB's FPGA of Xilinx Zynq UltraScale+ MPSoC (xczu2cg-sfvc784) with QTH loopback, default file, tileboard_loopback/cabletester/src/constraints/pinout.xdc should be used.
  # To edit its XDC for QSH, please replace the pinout.xdc with tileboard_loopback/cabletester/src/constraints/QSH/pinout.xdc
  # Spreadsheet for FPGA's pin name, pin code (for XDC file), and UMinn Tileboard's leg assignment are in tileboard_loopback/cabletester/src/constraints/xczu2cgsfvc784pkg.csv
